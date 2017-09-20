@@ -3,7 +3,7 @@
 
 // Hard Reload Chrome
 enum dz60_keycodes {
-  LT_1_OR_RELOAD_CHROME = SAFE_RANGE
+	LT_1_OR_RELOAD_CHROME = SAFE_RANGE
 };
 
 const uint16_t PROGMEM keymaps[][5][15] = {
@@ -49,7 +49,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 		if(record->event.pressed) {
 			custom_lt_timer = timer_read();
 			layer_on(1);
-		}else{
+		} else {
 			layer_off(1);
 			if (timer_elapsed(custom_lt_timer) < 200) {
 				register_code(KC_LGUI);
