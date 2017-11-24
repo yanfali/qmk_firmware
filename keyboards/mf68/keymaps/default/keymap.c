@@ -4,30 +4,31 @@
 #define _FN1 1
 #define _FN2 2
 #define KC_ KC_TRNS
-#define KC_X0 LT(_FN2, KC_GRV)
+#define KC_X0 LT(_FN2, KC_ESC)
 #define KC_X1 MO(_FN1)
 #define KC_X2 BL_STEP
+#define KC_X3 RESET
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_kc(
  /*,----+----+----+----+----+----+----+----+----+----+----+----+----+--------.  ,----+----. */
-    ESC , 1  , 2  , 3  , 4  , 5  , 6  , 7  , 8  , 9  , 0  ,MINS,EQL ,  BSPC  ,   INS ,PGUP,
+    GRV , 1  , 2  , 3  , 4  , 5  , 6  , 7  , 8  , 9  , 0  ,MINS,EQL ,  BSPC  ,   HOME ,PGUP,
  /*|----`----`----`----`----`----`----`----`----`----`----`----`----`--------|  |----`----| */
-    TAB   , Q  , W  , E  , R  , T  , Y  , U  , I  , O  , P  ,LBRC,RBRC, BSLS ,   DEL ,PGDN,
+    TAB   , Q  , W  , E  , R  , T  , Y  , U  , I  , O  , P  ,LBRC,RBRC, BSLS ,   END ,PGDN,
  /*|------`----`----`----`----`----`----`----`----`----`----`----`----`------|  `----`----' */
     X0     , A  , S  , D  , F  , G  , H  , J  , K  , L  ,SCLN,QUOT,    ENTER ,
  /*|-------`----`----`----`----`----`----`----`----`----`----`----`----------|  ,----. */
     LSFT     , Z  , X  , C  , V  , B  , N  , M  ,COMM,DOT ,SLSH,       RSFT  ,    UP ,
  /*|---------`----`----`----`----`----`----`----`----`----`----`-------------.--|----|----. */
-    LCTL ,LGUI ,LALT ,            SPACE             ,  X1  ,RALT ,RCTL ,    LEFT,DOWN,RGHT
+    LCTL ,LALT ,LGUI ,            SPACE             ,  X1  ,RALT ,RCTL ,    LEFT,DOWN,RGHT
  /*`-----+-----+-----+------------------------------+------+-----+-----'   `----+----+----' */
   ),
 
   [_FN1] = LAYOUT_kc(
  /*,----+----+----+----+----+----+----+----+----+----+----+----+----+--------.  ,----+----. */
-    GRV , F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,   BSPC ,   VOLU,HOME,
+    GRV , F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,   BSPC ,   HOME,VOLU,
  /*|esc-`-1--`-2--`-3--`-4--`-5--`-6--`-7--`-8--`-9--`-0--`mnus`plus`--bksp--|  |ins-`pgup| */
-          ,    ,    , UP ,    ,    ,    ,    ,    ,    ,    ,    , X2 ,      ,   VOLD,END,
+          ,    ,    , UP ,    ,    ,    ,    ,    ,    ,    ,    , X2 ,    X3,   END,VOLD,
  /*|tab---`-q--`-w--`-e--`-r--`-t--`-y--`-u--`-i--`-o--`-p--`-{--`-}--`--|---|  `del-`pgdn' */
            ,    ,LEFT,DOWN,RGHT,    ,    ,    ,    ,    ,    ,    ,          ,
  /*|caps---`-a--`-s--`-d--`-f--`-g--`-h--`-j--`-k--`-l--`-;--`-'--`----enter-|  ,----. */
