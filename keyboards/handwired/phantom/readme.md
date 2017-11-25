@@ -1,5 +1,5 @@
-Phantom
-=======
+Phantom QMK BLE
+===============
 
 A community-developed keyboard PCB designed to fit inside the case of a Filco Majestouch.
 
