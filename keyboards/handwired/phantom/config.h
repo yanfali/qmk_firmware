@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEVICE_VER      0x0003
 #define MANUFACTURER    bpiphany
 #define PRODUCT         PHANTOM
-#define DESCRIPTION     QMK keyboard firmware for PHANTOM
+#define DESCRIPTION     PHANTOM QMK BLE
 
 /* key matrix size */
 #define MATRIX_ROWS 6
@@ -35,10 +35,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // ROWS: Top to bottom, COLS: Left to right
 /* Row pin configuration
 */
-#define MATRIX_ROW_PINS { B5, B4, B3, B2, B1, B0 }
+#define MATRIX_ROW_PINS { D1, D0, C6, D7, B5, B6}
 /* Column pin configuration
  */
-#define MATRIX_COL_PINS { D5, C7, C6, D4, D0, E6, F0, F1, F4, F5, F6, F7, D7, D6, D1, D2, D3 }
+#define MATRIX_COL_PINS { B7, D6, C7, F7, F6, F5, F4, F1, F0, D2, D3, D3, D3, D3, D3, D3, D3}
 #define UNUSED_PINS
 
 /* COL2ROW or ROW2COL */

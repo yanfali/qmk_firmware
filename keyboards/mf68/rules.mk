@@ -13,7 +13,7 @@ MCU = atmega32u4
 #     does not *change* the processor frequency - it should merely be updated to
 #     reflect the processor speed set externally so that the code can use accurate
 #     software delays.
-F_CPU = 16000000
+F_CPU = 8000000
 
 
 #
@@ -63,4 +63,5 @@ BACKLIGHT_ENABLE ?= yes      # Enable keyboard backlight functionality on B7 by 
 MIDI_ENABLE ?= no            # MIDI controls
 UNICODE_ENABLE ?= no         # Unicode
 BLUETOOTH_ENABLE ?= no       # Enable Bluetooth with the Adafruit EZ-Key HID
+BLUETOOTH ?= AdafruitBLE       # Enable Bluetooth with the Adafruit EZ-Key HID
 AUDIO_ENABLE ?= no           # Audio output on port C6
