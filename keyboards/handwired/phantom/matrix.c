@@ -277,35 +277,37 @@ static void  init_cols(void)
 
 static matrix_row_t read_cols(uint8_t row)
 {
-    if (row < 7) {
-        if (mcp23018_status) { // if there was an error
-            return 0;
-        } else {
-            uint8_t data = 0;
-            mcp23018_status = i2c_start(I2C_ADDR_WRITE);    if (mcp23018_status) goto out;
-            mcp23018_status = i2c_write(GPIOB);             if (mcp23018_status) goto out;
-            mcp23018_status = i2c_start(I2C_ADDR_READ);     if (mcp23018_status) goto out;
-            data = i2c_readNak();
-            data = ~data;
-        out:
-            i2c_stop();
-            return data;
-        }
+    // I need to read the i2c and combine it with the bluefruit pins
+    // 8 bits come from the GPIOA and the 9 other bits from the bluefruit.
+
+    // This uses the row to figure out which thing to read.
+    if (mcp23018_status) { // if there was an error
+        return 0;
     } else {
-        // read from teensy
-        return
-            (PINF&(1<<0) ? 0 : (1<<0)) |
-            (PINF&(1<<1) ? 0 : (1<<1)) |
-            (PINF&(1<<4) ? 0 : (1<<2)) |
-            (PINF&(1<<5) ? 0 : (1<<3)) |
-            (PINF&(1<<6) ? 0 : (1<<4)) |
-            (PINF&(1<<7) ? 0 : (1<<5)) ;
+        uint8_t data = 0;
+        mcp23018_status = i2c_start(I2C_ADDR_WRITE);    if (mcp23018_status) goto out;
+        mcp23018_status = i2c_write(GPIOB);             if (mcp23018_status) goto out;
+        mcp23018_status = i2c_start(I2C_ADDR_READ);     if (mcp23018_status) goto out;
+        data = i2c_readNak();
+        data = ~data;
+    out:
+        i2c_stop();
+        return data;
     }
+
+    // read from bluefruit and combine 8 bits from mcp23017/18
+    return
+        (PINF&(1<<0) ? 0 : (1<<0)) |
+        (PINF&(1<<1) ? 0 : (1<<1)) |
+        (PINF&(1<<4) ? 0 : (1<<2)) |
+        (PINF&(1<<5) ? 0 : (1<<3)) |
+        (PINF&(1<<6) ? 0 : (1<<4)) |
+        (PINF&(1<<7) ? 0 : (1<<5)) ;
 }
 
 /* Row pin configuration
  *
- * Teensy
+ * Bluefruit
  * row: 7   8   9   10  11  12  13
  * pin: B0  B1  B2  B3  D2  D3  C6
  *
@@ -341,54 +343,33 @@ static void unselect_rows(void)
 
 static void select_row(uint8_t row)
 {
-    if (row < 7) {
-        // select on mcp23018
-        if (mcp23018_status) { // if there was an error
-            // do nothing
-        } else {
-            // set active row low  : 0
-            // set other rows hi-Z : 1
-            mcp23018_status = i2c_start(I2C_ADDR_WRITE);        if (mcp23018_status) goto out;
-            mcp23018_status = i2c_write(GPIOA);                 if (mcp23018_status) goto out;
-            mcp23018_status = i2c_write( 0xFF & ~(1<<row)
-                                  & ~(0<<7)
-                              );                                if (mcp23018_status) goto out;
-        out:
-            i2c_stop();
-        }
-    } else {
-        // select on teensy
-        // Output low(DDR:1, PORT:0) to select
-        switch (row) {
-            case 7:
-                DDRB  |= (1<<0);
-                PORTB &= ~(1<<0);
-                break;
-            case 8:
-                DDRB  |= (1<<1);
-                PORTB &= ~(1<<1);
-                break;
-            case 9:
-                DDRB  |= (1<<2);
-                PORTB &= ~(1<<2);
-                break;
-            case 10:
-                DDRB  |= (1<<3);
-                PORTB &= ~(1<<3);
-                break;
-            case 11:
-                DDRD  |= (1<<2);
-                PORTD &= ~(1<<3);
-                break;
-            case 12:
-                DDRD  |= (1<<3);
-                PORTD &= ~(1<<3);
-                break;
-            case 13:
-                DDRC  |= (1<<6);
-                PORTC &= ~(1<<6);
-                break;
-        }
+    // select on teensy
+    // Output low(DDR:1, PORT:0) to select
+    switch (row) {
+        case 0:
+            DDRF  |= (1<<7);
+            PORTB &= ~(1<<7);
+            break;
+        case 1:
+            DDRB  |= (1<<6);
+            PORTB &= ~(1<<6);
+            break;
+        case 2:
+            DDRB  |= (1<<5);
+            PORTB &= ~(1<<5);
+            break;
+        case 3:
+            DDRB  |= (1<<4);
+            PORTB &= ~(1<<4);
+            break;
+        case 4:
+            DDRD  |= (1<<1);
+            PORTD &= ~(1<<1);
+        break;
+        case 5:
+            DDRD  |= (1<<0);
+            PORTD &= ~(1<<0);
+            break;
     }
 }
 
