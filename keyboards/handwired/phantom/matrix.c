@@ -260,19 +260,20 @@ uint8_t matrix_key_count(void)
  * col: 0   1   2   3   4   5
  * pin: F0  F1  F4  F5  F6  F7
  *
- * MCP23018
- * col: 0   1   2   3   4   5
- * pin: B5  B4  B3  B2  B1  B0
  */
 static void  init_cols(void)
 {
-    // init on mcp23018
+    // init on mcp2301X
     // not needed, already done as part of init_mcp23018()
 
-    // init on teensy
+    // init on bluefruit
     // Input with pull-up(DDR:0, PORT:1)
-    DDRF  &= ~(1<<7 | 1<<6 | 1<<5 | 1<<4 | 1<<1 | 1<<0);
-    PORTF |=  (1<<7 | 1<<6 | 1<<5 | 1<<4 | 1<<1 | 1<<0);
+    DDRC  &= ~(1<<7 | 1<<6);
+    PORTC |= ~(1<<7 | 1<<6);
+    DDRD  &= ~(1<<6 | 1<<7 | 1<<2 | 1<<1);
+    PORTD |= ~(1<<6 | 1<<7 | 1<<2 | 1<<1);
+    DDRB  &= ~(1<<7 | 1<<6 | 1<<5);
+    PORTB |= ~(1<<7 | 1<<6 | 1<<5);
 }
 
 static matrix_row_t read_cols(uint8_t row)
@@ -280,40 +281,38 @@ static matrix_row_t read_cols(uint8_t row)
     // I need to read the i2c and combine it with the bluefruit pins
     // 8 bits come from the GPIOA and the 9 other bits from the bluefruit.
 
+    uint8_t data = 0;
     // This uses the row to figure out which thing to read.
-    if (mcp23018_status) { // if there was an error
-        return 0;
-    } else {
-        uint8_t data = 0;
+    if (!mcp23018_status) { // if there was an error
         mcp23018_status = i2c_start(I2C_ADDR_WRITE);    if (mcp23018_status) goto out;
-        mcp23018_status = i2c_write(GPIOB);             if (mcp23018_status) goto out;
+        mcp23018_status = i2c_write(GPIOA);             if (mcp23018_status) goto out;
         mcp23018_status = i2c_start(I2C_ADDR_READ);     if (mcp23018_status) goto out;
         data = i2c_readNak();
         data = ~data;
     out:
         i2c_stop();
-        return data;
     }
 
     // read from bluefruit and combine 8 bits from mcp23017/18
     return
-        (PINF&(1<<0) ? 0 : (1<<0)) |
-        (PINF&(1<<1) ? 0 : (1<<1)) |
-        (PINF&(1<<4) ? 0 : (1<<2)) |
-        (PINF&(1<<5) ? 0 : (1<<3)) |
-        (PINF&(1<<6) ? 0 : (1<<4)) |
-        (PINF&(1<<7) ? 0 : (1<<5)) ;
+        (PINC&(1<<7) ? 0 : (1<<7)) |
+        (PIND&(1<<6) ? 0 : (1<<6)) |
+        (PINB&(1<<7) ? 0 : (1<<7)) |
+        (PINB&(1<<6) ? 0 : (1<<6)) |
+        (PINB&(1<<5) ? 0 : (1<<5)) |
+        (PIND&(1<<7) ? 0 : (1<<7)) |
+        (PINC&(1<<6) ? 0 : (1<<6)) |
+        (PIND&(1<<2) ? 0 : (1<<2)) |
+        (PIND&(1<<1) ? 0 : (1<<1)) |
+        data;
 }
 
 /* Row pin configuration
  *
  * Bluefruit
- * row: 7   8   9   10  11  12  13
- * pin: B0  B1  B2  B3  D2  D3  C6
+ * row: 0   1   2   3   4   5
+ * pin: F7  F6  F5  F4  F1  F0
  *
- * MCP23018
- * row: 0   1   2   3   4   5   6
- * pin: A0  A1  A2  A3  A4  A5  A6
  */
 static void unselect_rows(void)
 {
@@ -331,19 +330,19 @@ static void unselect_rows(void)
         i2c_stop();
     }
 
-    // unselect on teensy
+    // unselect on bluefruit
     // Hi-Z(DDR:0, PORT:0) to unselect
-    DDRB  &= ~(1<<0 | 1<<1 | 1<<2 | 1<<3);
-    PORTB &= ~(1<<0 | 1<<1 | 1<<2 | 1<<3);
-    DDRD  &= ~(1<<2 | 1<<3);
-    PORTD &= ~(1<<2 | 1<<3);
-    DDRC  &= ~(1<<6);
-    PORTC &= ~(1<<6);
+    DDRC  &= ~(1<<7 | 1<<6);
+    PORTC &= ~(1<<7 | 1<<6);
+    DDRD  &= ~(1<<6 | 1<<7 | 1<<2 | 1<<1);
+    PORTD &= ~(1<<6 | 1<<7 | 1<<2 | 1<<1);
+    DDRB  &= ~(1<<7 | 1<<6 | 1<<5);
+    PORTB &= ~(1<<7 | 1<<6 | 1<<5);
 }
 
 static void select_row(uint8_t row)
 {
-    // select on teensy
+    // select on bluefruit
     // Output low(DDR:1, PORT:0) to select
     switch (row) {
         case 0:
