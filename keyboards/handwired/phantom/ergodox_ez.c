@@ -35,7 +35,9 @@ uint8_t init_mcp23018(void) {
     mcp23018_status = i2c_start(I2C_ADDR_WRITE);    if (mcp23018_status) goto out;
     mcp23018_status = i2c_write(IODIRA);            if (mcp23018_status) goto out;
     mcp23018_status = i2c_write(0b00000000);        if (mcp23018_status) goto out;
-    mcp23018_status = i2c_write(0b00111111);        if (mcp23018_status) goto out;
+    mcp23018_status = i2c_write(0b11111111);        if (mcp23018_status) goto out;
+    // pin GPB3 has an LED on it on my board
+    //mcp23018_status = i2c_write(0b00001000);        if (mcp23018_status) goto out;
     i2c_stop();
 
     // set pull-up
@@ -45,7 +47,9 @@ uint8_t init_mcp23018(void) {
     mcp23018_status = i2c_start(I2C_ADDR_WRITE);    if (mcp23018_status) goto out;
     mcp23018_status = i2c_write(GPPUA);             if (mcp23018_status) goto out;
     mcp23018_status = i2c_write(0b00000000);        if (mcp23018_status) goto out;
-    mcp23018_status = i2c_write(0b00111111);        if (mcp23018_status) goto out;
+    mcp23018_status = i2c_write(0b11111111);        if (mcp23018_status) goto out;
+    // this proves that the i2c has been configured because the LED will come on
+    // mcp23018_status = i2c_write(0b00001000);        if (mcp23018_status) goto out;
 
 out:
     i2c_stop();
