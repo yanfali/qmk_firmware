@@ -32,13 +32,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MATRIX_ROWS 6
 #define MATRIX_COLS 17
 
+/* MCP Pins */
+#define MCP_A0 0x0
+#define MCP_A1 0x1
+#define MCP_A2 0x2
+#define MCP_A3 0x3
+#define MCP_A4 0x4
+#define MCP_A5 0x5
+#define MCP_A6 0x6
+#define MCP_A7 0x7
+
+#define MCP_COL 9
+
 // ROWS: Top to bottom, COLS: Left to right
 /* Row pin configuration
 */
 #define MATRIX_ROW_PINS { F7, F6, F5, F4, F1, F0 }
 /* Column pin configuration
  */
-#define MATRIX_COL_PINS { C7, D6, B7, B6, B5, D7, C6, D2, D1, D1, D1, D1, D1, D1, D1, D1, D1 }
+#define MATRIX_COL_PINS { C7, D6, B7, B6, B5, D7, C6, D2, D3, MCP_A7, MCP_A6, MCP_A5, MCP_A4, MCP_A3, MCP_A2, MCP_A1, MCP_A0 }
 #define UNUSED_PINS
 
 /* COL2ROW or ROW2COL */
