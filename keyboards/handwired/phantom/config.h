@@ -42,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MCP_A6 0x6
 #define MCP_A7 0x7
 
-#define MCP_COL 9
+#define MCP_COLS 9
 
 // ROWS: Top to bottom, COLS: Left to right
 /* Row pin configuration
