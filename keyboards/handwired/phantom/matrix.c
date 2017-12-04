@@ -387,53 +387,64 @@ static bool read_rows_on_col(matrix_row_t current_matrix[], uint8_t current_col)
     return matrix_changed;
 }
 
+static const uint8_t row_map[] = {
+  0b01111111,
+  0b10111111,
+  0b11011111,
+  0b11101111,
+  0b11110111,
+  0b11111011,
+  0b11111101,
+  0b11111110,
+};
+
 static void select_col(uint8_t col)
 {
-    if (col < MCP_COLS) {
-        uint8_t pin = col_pins[col];
+    uint8_t pin = col_pins[col];
+    if (col < 9) {
         _SFR_IO8((pin >> 4) + 1) |=  _BV(pin & 0xF); // OUT
         _SFR_IO8((pin >> 4) + 2) &= ~_BV(pin & 0xF); // LOW
     } else {
-      // I2C here
-    mcp23018_status = i2c_start(I2C_ADDR_WRITE);    if (mcp23018_status) goto out;
-    mcp23018_status = i2c_write(IODIRA);            if (mcp23018_status) goto out;
-    mcp23018_status = i2c_write(0b00000000 | (1<<col_pins[col]));        if (mcp23018_status) goto out;
-    mcp23018_status = i2c_write(0b11111111);        if (mcp23018_status) goto out;
+        // I2C here
+        mcp23018_status = i2c_start(I2C_ADDR_WRITE);    if (mcp23018_status) goto out;
+        mcp23018_status = i2c_write(IODIRA);            if (mcp23018_status) goto out;
+        mcp23018_status = i2c_write(row_map[col-9]);        if (mcp23018_status) goto out;
+        mcp23018_status = i2c_write(0b11111111);        if (mcp23018_status) goto out;
 
-    i2c_stop();
+        i2c_stop();
 
-    mcp23018_status = i2c_start(I2C_ADDR_WRITE);    if (mcp23018_status) goto out;
-    mcp23018_status = i2c_write(GPPUA);            if (mcp23018_status) goto out;
-    mcp23018_status = i2c_write(0b11111111 | (0<<col_pins[col]));        if (mcp23018_status) goto out;
-    mcp23018_status = i2c_write(0b11111111);        if (mcp23018_status) goto out;
+        mcp23018_status = i2c_start(I2C_ADDR_WRITE);    if (mcp23018_status) goto out;
+        mcp23018_status = i2c_write(GPPUA);            if (mcp23018_status) goto out;
+        mcp23018_status = i2c_write(row_map[col-9]);        if (mcp23018_status) goto out;
+        mcp23018_status = i2c_write(0b11111111);        if (mcp23018_status) goto out;
 
 out:
-    i2c_stop();
+        i2c_stop();
     }
 }
 
 static void unselect_col(uint8_t col)
 {
+    uint8_t pin = col_pins[col];
     if (col < MCP_COLS) {
-        uint8_t pin = col_pins[col];
         _SFR_IO8((pin >> 4) + 1) &= ~_BV(pin & 0xF); // IN
         _SFR_IO8((pin >> 4) + 2) |=  _BV(pin & 0xF); // HI
     } else {
       // I2C here
-    mcp23018_status = i2c_start(I2C_ADDR_WRITE);    if (mcp23018_status) goto out;
-    mcp23018_status = i2c_write(IODIRA);            if (mcp23018_status) goto out;
-    mcp23018_status = i2c_write(0b00000000);        if (mcp23018_status) goto out;
-    mcp23018_status = i2c_write(0b11111111);        if (mcp23018_status) goto out;
+        mcp23018_status = i2c_start(I2C_ADDR_WRITE);    if (mcp23018_status) goto out;
+        mcp23018_status = i2c_write(IODIRA);            if (mcp23018_status) goto out;
+        mcp23018_status = i2c_write(0b11111111);        if (mcp23018_status) goto out;
+        mcp23018_status = i2c_write(0b11111111);        if (mcp23018_status) goto out;
 
-    i2c_stop();
+        i2c_stop();
 
-    mcp23018_status = i2c_start(I2C_ADDR_WRITE);    if (mcp23018_status) goto out;
-    mcp23018_status = i2c_write(GPPUA);            if (mcp23018_status) goto out;
-    mcp23018_status = i2c_write(0b11111111);        if (mcp23018_status) goto out;
-    mcp23018_status = i2c_write(0b11111111);        if (mcp23018_status) goto out;
+        mcp23018_status = i2c_start(I2C_ADDR_WRITE);    if (mcp23018_status) goto out;
+        mcp23018_status = i2c_write(GPPUA);            if (mcp23018_status) goto out;
+        mcp23018_status = i2c_write(0b11111111);        if (mcp23018_status) goto out;
+        mcp23018_status = i2c_write(0b11111111);        if (mcp23018_status) goto out;
 
 out:
-    i2c_stop();
+        i2c_stop();
     }
 }
 

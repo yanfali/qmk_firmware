@@ -68,5 +68,6 @@ BLUETOOTH_ENABLE = no       # Enable Bluetooth with the Adafruit EZ-Key HID
 AUDIO_ENABLE = no           # Audio output on port C6
 FAUXCLICKY_ENABLE = no      # Use buzzer to emulate clicky switches
 CUSTOM_MATRIX = yes
+BLUETOOTH = AdaFruitBLE
 
 SRC += matrix.c mcp23017.c twimaster.c
