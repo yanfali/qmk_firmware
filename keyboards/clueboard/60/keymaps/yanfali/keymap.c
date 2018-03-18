@@ -18,7 +18,10 @@ enum custom_keycodes {
     S_ONEUP,
     S_COIN,
     S_SONIC,
-    S_ZELDA
+    S_ZELDA,
+    S_BASE,
+    S_TEMPOI,
+    S_TEMPOD
 };
 
 #ifdef AUDIO_ENABLE
@@ -31,6 +34,7 @@ enum custom_keycodes {
   float song_one_up[][2]  = SONG(ONE_UP_SOUND);
   float song_sonic_ring[][2]  = SONG(SONIC_RING);
   float song_zelda_puzzle[][2]  = SONG(ZELDA_PUZZLE);
+  float song_all_your_base[][2]  = SONG(ALL_YOUR_BASE_ARE_BELONG_TO_US);
 #endif
 
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -60,10 +64,10 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______,  _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,  _______,   MO(_YF), \
       _______,_______,_______,                        _______,                     _______,  _______,  MO(_FL),   _______),
     [_CL] = KEYMAP(
-      BL_STEP,S_BSKTC,S_ODEJY,S_RCKBY,S_DOEDR,S_SCALE,S_ONEUP,S_COIN, S_SONIC,S_ZELDA,_______,_______,_______,_______,_______,\
-      _______,   _______,_______,_______,RESET,  _______,_______,_______,_______,_______,_______,_______,_______,_______,     \
+      BL_STEP,S_BSKTC,S_ODEJY,S_RCKBY,S_DOEDR,S_SCALE,S_ONEUP,S_COIN, S_SONIC,S_ZELDA,S_BASE,_______,_______,_______,_______,\
+      _______,   _______,S_TEMPOI,_______,RESET,  _______,_______,_______,_______,_______,_______,_______,_______,_______,     \
       _______,     _______,MO(_CL),_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,  _______, \
-      _______,  _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,     MO(_YF), \
+      _______,  _______,S_TEMPOD,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,     MO(_YF), \
       _______,  _______,  _______,                        _______,                     _______,  _______,  MO(_FL),   _______),
     [_YF] = KEYMAP(
       _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,\
@@ -74,6 +78,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    set_tempo(TEMPO_DEFAULT);
     switch (keycode) {
         case S_BSKTC:
             if (record->event.pressed) {
@@ -127,6 +132,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 stop_all_notes();
                 PLAY_SONG(song_zelda_puzzle);
+            }
+            return false;
+        case S_BASE:
+            if (record->event.pressed) {
+                stop_all_notes();
+                set_tempo(200);
+                PLAY_SONG(song_all_your_base);
             }
             return false;
     }
