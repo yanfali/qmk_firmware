@@ -21,7 +21,7 @@
 #define NO_SOUND
 
 #define ALL_YOUR_BASE_ARE_BELONG_TO_US                           \
-    H__NOTE(REST), Q__NOTE(_REST), E__NOTE(_REST), E__NOTE(_E4), \
+    H__NOTE(_REST), Q__NOTE(_REST), E__NOTE(_REST), E__NOTE(_E4), \
     S__NOTE(_E5),  S__NOTE(_E4),   S__NOTE(_E5),   S__NOTE(_E4), \
     E__NOTE(_D4),  E__NOTE(_D5),   E__NOTE(_F4),   E__NOTE(_F5), \
     E__NOTE(_F4),  E__NOTE(_E4),   E__NOTE(_E5),   E__NOTE(_E4), \
