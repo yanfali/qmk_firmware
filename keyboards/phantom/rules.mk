@@ -1,3 +1,9 @@
+# Project specific Files
+SRC = \
+      twimaster.c \
+      matrix.c \
+      expander.c \
+
 # MCU name
 #MCU = at90usb1287
 MCU = atmega32u4
@@ -51,6 +57,7 @@ OPT_DEFS += -DBOOTLOADER_SIZE=4096
 # Build Options
 #   change yes to no to disable
 #
+CUSTOM_MATRIX = yes
 BOOTMAGIC_ENABLE = no      # Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE = no       # Mouse keys(+4700)
 EXTRAKEY_ENABLE = no       # Audio control and System control(+450)
