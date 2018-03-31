@@ -30,15 +30,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* key matrix size */
 #define MATRIX_ROWS 6
+//#define MATRIX_COLS 17
 #define MATRIX_COLS 17
 
 // ROWS: Top to bottom, COLS: Left to right
 /* Row pin configuration
 */
-#define MATRIX_ROW_PINS { B5, B4, B3, B2, B1, B0 }
+//#define MATRIX_ROW_PINS { B5, B4, B3, B2, B1, B0 }
+// AdaFruitBLE
+#define MATRIX_ROW_PINS { F0, F1, F4, F5, F6, F7 }
 /* Column pin configuration
  */
-#define MATRIX_COL_PINS { D5, C7, C6, D4, D0, E6, F0, F1, F4, F5, F6, F7, D7, D6, D1, D2, D3 }
+//#define MATRIX_COL_PINS { D5, C7, C6, D4, D0, E6, F0, F1, F4, F5, F6, F7, D7, D6, D1, D2, D3 }
+#define   MATRIX_COL_PINS { D2, D3, C7, D6, B7, B6, B5, D7, C6, C6, C6, C6, C6, C6, C6, C6, C6 }
 #define UNUSED_PINS
 
 /* COL2ROW or ROW2COL */
