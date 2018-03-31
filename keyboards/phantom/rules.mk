@@ -3,6 +3,7 @@ SRC = \
       twimaster.c \
       matrix.c \
       expander.c \
+      ssd1306.c \
 
 # MCU name
 #MCU = at90usb1287
