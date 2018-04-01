@@ -3,7 +3,7 @@
 
 #define SSD1306_LCDWIDTH 128
 #define SSD1306_LCDHEIGHT 64
-#define SSD1306_I2C_ADDRESS 0x3C
+#define SSD1306_I2C_ADDRESS (0x3C<<1)
 #define SSD1306_SETCONTRAST 0x81
 #define SSD1306_DISPLAYALLON_RESUME 0xA4
 #define SSD1306_DISPLAYALLON 0xA5
@@ -53,5 +53,6 @@
 
 void ssd1306_init(void);
 uint8_t ssd1306_command(uint8_t);
+uint8_t ssd1306_display(void);
 
 #endif

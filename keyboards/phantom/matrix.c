@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "matrix.h"
 #include "timer.h"
 #include "ssd1306.h"
+#include "i2cmaster.h"
 
 
 /* Set 0 if debouncing isn't needed */
@@ -146,10 +147,23 @@ uint8_t matrix_cols(void) {
 //     }
 // #endif
 // }
+//
+bool i2c_initialized = 0;
+uint8_t volatile mcp23018_status = 0x20;
+
+#define IODIRA          0x00            // i/o direction register
+#define IODIRB          0x01
+#define GPPUA           0x0C            // GPIO pull-up resistor register
+#define GPPUB           0x0D
+#define GPIOA           0x12            // general purpose i/o port register (write modifies OLAT)
+#define GPIOB           0x13
+#define OLATA           0x14            // output latch register
+#define OLATB           0x15
+
 
 void matrix_init(void) {
 
-    ssd1306_init();
+
     // To use PORTF disable JTAG with writing JTD bit twice within four cycles.
     #if  (defined(__AVR_AT90USB1286__) || defined(__AVR_AT90USB1287__) || defined(__AVR_ATmega32U4__))
         MCUCR |= _BV(JTD);
@@ -164,6 +178,13 @@ void matrix_init(void) {
     unselect_cols();
     init_rows();
 #endif
+
+    i2c_init();
+    i2c_initialized = 1;
+    _delay_ms(1000);
+
+    ssd1306_init();
+    ssd1306_display();
 
     // initialize matrix state: all keys off
     for (uint8_t i=0; i < MATRIX_ROWS; i++) {
