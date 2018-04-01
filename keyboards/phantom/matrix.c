@@ -185,6 +185,9 @@ void matrix_init(void) {
 
     ssd1306_init();
     ssd1306_display();
+    _delay_ms(1000);
+    ssd1306_clear_display();
+    ssd1306_display();
 
     // initialize matrix state: all keys off
     for (uint8_t i=0; i < MATRIX_ROWS; i++) {

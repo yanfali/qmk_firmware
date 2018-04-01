@@ -54,5 +54,6 @@
 void ssd1306_init(void);
 uint8_t ssd1306_command(uint8_t);
 uint8_t ssd1306_display(void);
+void ssd1306_clear_display(void);
 
 #endif

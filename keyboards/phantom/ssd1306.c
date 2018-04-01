@@ -1,3 +1,4 @@
+#include <string.h>
 #include "i2cmaster.h"
 #include "ssd1306.h"
 
@@ -148,3 +149,8 @@ uint8_t ssd1306_display(void) {
       i2c_stop();
     return ret;
 }
+
+void ssd1306_clear_display(void) {
+  memset(buffer, 0, (SSD1306_LCDWIDTH*SSD1306_LCDHEIGHT/8));
+}
+
