@@ -14,6 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
+#include "phantom.h"
+#include "ssd1306.h"
 
 // Helpful defines
 #define _______ KC_TRNS
@@ -59,13 +61,19 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
     return MACRO_NONE;
 };
 
+static uint16_t display_timer;
+volatile uint8_t display_runonce = true;
 
 void matrix_init_user(void) {
-
+  display_timer = timer_read();
 }
 
 void matrix_scan_user(void) {
-
+  if (display_runonce && timer_elapsed(display_timer) > 1000) {
+    display_runonce = false;
+    ssd1306_clear_display();
+    ssd1306_display();
+  }
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {

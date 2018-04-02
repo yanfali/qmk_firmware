@@ -161,6 +161,7 @@ uint8_t volatile mcp23018_status = 0x20;
 #define OLATB           0x15
 
 
+
 void matrix_init(void) {
 
 
@@ -184,9 +185,6 @@ void matrix_init(void) {
     _delay_ms(1000);
 
     ssd1306_init();
-    ssd1306_display();
-    _delay_ms(1000);
-    ssd1306_clear_display();
     ssd1306_display();
 
     // initialize matrix state: all keys off
