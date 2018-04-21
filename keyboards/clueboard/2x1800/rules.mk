@@ -18,3 +18,4 @@ MIDI_ENABLE = no            # MIDI support (+2400 to 4200, depending on config)
 UNICODE_ENABLE = no         # Unicode
 RGBLIGHT_ENABLE = yes       # RGB on port C6
 AUDIO_ENABLE = yes          # Audio output on port C4 and B7
+FAUXCLICKY_ENABLE = no      # Use buzzer to emulate clicky switches
