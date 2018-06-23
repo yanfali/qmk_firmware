@@ -37,6 +37,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MATRIX_ROW_PINS { D7, E6, B4, D2, D4 }
 #define MATRIX_COL_PINS { F6, F7, B1, B3, B2, B6 }
 
+#define QMK_ESC_OUTPUT F6
+#define QMK_ESC_INPUT D7
+#define QMK_LED B0
+#define QMK_SPEAKER C6
+
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION COL2ROW
 
