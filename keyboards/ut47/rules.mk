@@ -39,7 +39,7 @@ F_USB = $(F_CPU)
 OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
 
 # Bootloader
-BOOTLOADER = caterina
+BOOTLOADER = qmk-dfu
 
 # custom matrix setup
 CUSTOM_MATRIX = yes
