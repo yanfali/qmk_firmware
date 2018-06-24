@@ -38,6 +38,7 @@ F_USB = $(F_CPU)
 # Interrupt driven control endpoint task(+60)
 OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
 
+BOOTLOADER = qmk-dfu
 
 # Boot Section Size in *bytes*
 #   Teensy halfKay   512
