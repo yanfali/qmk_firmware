@@ -11,7 +11,7 @@
 #define KC_LCTRL_T MT(KC_LCTRL, KC_ESC)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [_QWERTY] = KC_KEYMAP(
+  [_QWERTY] = LAYOUT_kc(
  /*,----+----+----+----+----+----+----+----+----+----+----+----+----+--------.  ,----+----. */
     GRV , 1  , 2  , 3  , 4  , 5  , 6  , 7  , 8  , 9  , 0  ,MINS,EQL ,  BSPC  ,   HOME,PGUP,
  /*|----`----`----`----`----`----`----`----`----`----`----`----`----`--------|  |----`----| */
@@ -25,7 +25,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  /*`-----+-----+-----+------------------------------+------+-----+-----'   `----+----+----' */
   ),
 
-  [_FN1] = KC_KEYMAP(
+  [_FN1] = LAYOUT_kc(
  /*,----+----+----+----+----+----+----+----+----+----+----+----+----+--------.  ,----+----. */
         , F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,   BSPC ,   VOLU,PGUP,
  /*|esc-`-1--`-2--`-3--`-4--`-5--`-6--`-7--`-8--`-9--`-0--`mnus`plus`--bksp--|  |ins-`pgup| */
@@ -39,7 +39,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  /*`ctrl-+-gui-+-alt-+----------space---------------+-fn---+-alt-+ctrl-'   `left+down+rght' */
   ),
 
-  [_FN2] = KC_KEYMAP(
+  [_FN2] = LAYOUT_kc(
  /*,----+----+----+----+----+----+----+----+----+----+----+----+----+--------.  ,----+----. */
     GRV , F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,   BSPC ,   VOLU,HOME,
  /*|esc-`-1--`-2--`-3--`-4--`-5--`-6--`-7--`-8--`-9--`-0--`mnus`plus`--bksp--|  |ins-`pgup| */
