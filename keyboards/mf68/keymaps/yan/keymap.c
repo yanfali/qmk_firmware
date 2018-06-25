@@ -8,6 +8,7 @@
 #define KC_X1 MO(_FN1)
 #define KC_X2 BL_STEP
 #define KC_X3 RESET
+#define KC_LCTRL_T MT(KC_LCTRL, KC_ESC)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = KC_KEYMAP(
@@ -16,7 +17,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  /*|----`----`----`----`----`----`----`----`----`----`----`----`----`--------|  |----`----| */
     TAB   , Q  , W  , E  , R  , T  , Y  , U  , I  , O  , P  ,LBRC,RBRC, BSLS ,   END ,PGDN,
  /*|------`----`----`----`----`----`----`----`----`----`----`----`----`------|  `----`----' */
-    ESC     , A  , S  , D  , F  , G  , H  , J  , K  , L  ,SCLN,QUOT,    ENTER ,
+    LCTRL_T , A  , S  , D  , F  , G  , H  , J  , K  , L  ,SCLN,QUOT,    ENTER ,
  /*|-------`----`----`----`----`----`----`----`----`----`----`----`----------|  ,----. */
     LSFT     , Z  , X  , C  , V  , B  , N  , M  ,COMM,DOT ,SLSH,       RSFT  ,    UP ,
  /*|---------`----`----`----`----`----`----`----`----`----`----`-------------.--|----|----. */
