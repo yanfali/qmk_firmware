@@ -8,7 +8,8 @@
 #define KC_X1 MO(_FN1)
 #define KC_X2 BL_STEP
 #define KC_X3 RESET
-#define KC_LCTRL_T MT(KC_LCTRL, KC_ESC)
+#define KC_X4 BL_BRTG
+#define KC_LCTRL_T MT(MOD_LCTL, KC_ESC)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_kc(
@@ -29,7 +30,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  /*,----+----+----+----+----+----+----+----+----+----+----+----+----+--------.  ,----+----. */
         , F1 , F2 , F3 , F4 , F5 , F6 , F7 , F8 , F9 ,F10 ,F11 ,F12 ,   BSPC ,   VOLU,PGUP,
  /*|esc-`-1--`-2--`-3--`-4--`-5--`-6--`-7--`-8--`-9--`-0--`mnus`plus`--bksp--|  |ins-`pgup| */
-          ,    ,    , UP ,    ,    ,    ,    ,    ,    ,    ,    , X2 , X3   ,   VOLD,PGDN,
+          ,    ,    , UP ,    ,    ,    ,    ,    ,    ,    , X4   , X2 , X3   ,   VOLD,PGDN,
  /*|tab---`-q--`-w--`-e--`-r--`-t--`-y--`-u--`-i--`-o--`-p--`-{--`-}--`--|---|  `del-`pgdn' */
            ,    ,LEFT,DOWN,RGHT,    ,    ,    ,    ,    ,    ,    ,          ,
  /*|caps---`-a--`-s--`-d--`-f--`-g--`-h--`-j--`-k--`-l--`-;--`-'--`----enter-|  ,----. */
