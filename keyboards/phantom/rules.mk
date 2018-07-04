@@ -78,3 +78,4 @@ FAUXCLICKY_ENABLE = no      # Use buzzer to emulate clicky switches
 
 LAYOUTS = tkl_ansi tkl_iso
 BLUETOOTH = AdafruitBLE
+DEBUG_ENABLE = yes

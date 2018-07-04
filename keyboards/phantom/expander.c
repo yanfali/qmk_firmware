@@ -13,14 +13,15 @@ uint8_t expander_read(uint8_t reg, uint8_t *data);
 
 void expander_init(void)
 {
-  i2c_init();
+  //  i2c_init();
   expander_scan();
 }
 
 void expander_scan(void)
 {
-  dprintf("expander status: %d ... ", expander_status);
+  dprintf("expander status: %d ... \n", expander_status);
   uint8_t ret = i2c_start(EXPANDER_ADDR | I2C_WRITE);
+  dprintf("ret %d\n", ret);
   if (ret == 0) {
     i2c_stop();
     if (expander_status == 0) {

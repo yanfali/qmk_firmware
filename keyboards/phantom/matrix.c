@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "timer.h"
 #include "ssd1306.h"
 #include "i2cmaster.h"
+#include "expander.h"
 
 
 /* Set 0 if debouncing isn't needed */
@@ -160,7 +161,8 @@ uint8_t volatile mcp23018_status = 0x20;
 #define OLATA           0x14            // output latch register
 #define OLATB           0x15
 
-
+volatile uint8_t runonce = 0;
+static uint16_t my_timer;
 
 void matrix_init(void) {
 
@@ -182,10 +184,10 @@ void matrix_init(void) {
 
     i2c_init();
     i2c_initialized = 1;
-    _delay_ms(1000);
-
+    _delay_ms(500);
     ssd1306_init();
-    ssd1306_display();
+    ssd1306_display_buffer();
+    my_timer = timer_read();
 
     // initialize matrix state: all keys off
     for (uint8_t i=0; i < MATRIX_ROWS; i++) {
@@ -198,6 +200,19 @@ void matrix_init(void) {
 
 uint8_t matrix_scan(void)
 {
+
+  if (runonce == 0 && timer_elapsed(my_timer) > 500) {
+    debug_config.enable = true;
+    debug_config.keyboard = true;
+    debug_config.matrix = true;
+    runonce = 1;
+    my_timer = timer_read();
+  }
+
+  if (runonce > 0 && timer_elapsed(my_timer) > 2000) {
+    expander_scan();
+    my_timer = timer_read();
+  }
 
 #if (DIODE_DIRECTION == COL2ROW)
 

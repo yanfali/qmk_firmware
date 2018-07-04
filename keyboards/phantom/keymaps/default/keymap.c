@@ -69,10 +69,10 @@ void matrix_init_user(void) {
 }
 
 void matrix_scan_user(void) {
-  if (display_runonce && timer_elapsed(display_timer) > 1000) {
+  if (display_runonce && timer_elapsed(display_timer) > 2000) {
     display_runonce = false;
-    ssd1306_clear_display();
-    ssd1306_display();
+    ssd1306_clear_buffer();
+    ssd1306_display_buffer();
   }
 }
 

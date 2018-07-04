@@ -1,5 +1,6 @@
 #include <string.h>
 #include "i2cmaster.h"
+#include <debug.h>
 #include "ssd1306.h"
 
 // the memory buffer for the LCD
@@ -73,6 +74,7 @@ static uint8_t buffer[SSD1306_LCDHEIGHT * SSD1306_LCDWIDTH / 8] = {
 
 void ssd1306_init(void)
 {
+  dprintf("initializing display\n");
   ssd1306_command(SSD1306_DISPLAYOFF);
   ssd1306_command(SSD1306_SETDISPLAYCLOCKDIV);
   ssd1306_command(0x80);
@@ -107,6 +109,7 @@ void ssd1306_init(void)
   ssd1306_command(SSD1306_DEACTIVATE_SCROLL);
 
   ssd1306_command(SSD1306_DISPLAYON);//--turn on oled panel
+  dprintf("initializing display done\n");
 
 }
 
@@ -122,7 +125,8 @@ uint8_t ssd1306_command(uint8_t c) {
   return ret;
 }
 
-uint8_t ssd1306_display(void) {
+uint8_t ssd1306_display_buffer(void) {
+  dprintf("display logo\n");
   uint8_t ret;
   ssd1306_command(SSD1306_COLUMNADDR);
   ssd1306_command(0);   // Column start address (0 = reset)
@@ -150,7 +154,7 @@ uint8_t ssd1306_display(void) {
     return ret;
 }
 
-void ssd1306_clear_display(void) {
+void ssd1306_clear_buffer(void) {
   memset(buffer, 0, (SSD1306_LCDWIDTH*SSD1306_LCDHEIGHT/8));
 }
 
