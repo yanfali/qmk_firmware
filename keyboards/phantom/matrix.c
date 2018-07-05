@@ -202,9 +202,9 @@ uint8_t matrix_scan(void)
 {
   expander_scan();
   if (runonce == 0 && timer_elapsed(my_timer) > 500) {
-    debug_config.enable = true;
-    debug_config.keyboard = true;
-    debug_config.matrix = true;
+    debug_config.enable = false;
+    debug_config.keyboard = false;
+    debug_config.matrix = false;
     runonce = 1;
     my_timer = timer_read();
   }
