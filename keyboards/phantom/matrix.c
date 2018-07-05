@@ -200,7 +200,7 @@ void matrix_init(void) {
 
 uint8_t matrix_scan(void)
 {
-
+  expander_scan();
   if (runonce == 0 && timer_elapsed(my_timer) > 500) {
     debug_config.enable = true;
     debug_config.keyboard = true;
@@ -209,8 +209,8 @@ uint8_t matrix_scan(void)
     my_timer = timer_read();
   }
 
-  if (runonce > 0 && timer_elapsed(my_timer) > 2000) {
-    expander_scan();
+  if (runonce > 0 && timer_elapsed(my_timer) > 1000) {
+    expander_toggle_led();
     my_timer = timer_read();
   }
 
@@ -390,7 +390,11 @@ static bool read_rows_on_col(matrix_row_t current_matrix[], uint8_t current_col)
     bool matrix_changed = false;
 
     // Select col and wait for col selecton to stabilize
-    select_col(current_col);
+    if (current_col < MATRIX_COLS - 8) {
+      select_col(current_col);
+    } else {
+      expander_select_col(current_col);
+    }
     wait_us(30);
 
     // For each row...
@@ -420,7 +424,12 @@ static bool read_rows_on_col(matrix_row_t current_matrix[], uint8_t current_col)
     }
 
     // Unselect col
-    unselect_col(current_col);
+
+    if (current_col < MATRIX_COLS - 8) {
+      unselect_col(current_col);
+    } else {
+      expander_unselect_cols();
+    }
 
     return matrix_changed;
 }

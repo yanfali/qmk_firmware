@@ -44,5 +44,8 @@ uint8_t expander_get_col(uint8_t col);
 matrix_row_t expander_read_row(void);
 void expander_unselect_rows(void);
 void expander_select_row(uint8_t row);
+void expander_toggle_led(void);
+void expander_select_col(uint8_t col);
+void expander_unselect_cols(void);
 
 #endif
