@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Rows are doubled-up
 #define MATRIX_ROWS 10
 #define MATRIX_COLS 6
-#define QMK_LED E6
+#define QMK_LED B0
 
 // wiring of each half
 #define MATRIX_ROW_PINS { D7, E6, B4, D2, D4 }
