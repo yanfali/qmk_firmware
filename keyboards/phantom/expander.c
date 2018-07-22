@@ -38,11 +38,14 @@ void expander_scan(void)
   dprintf("%d\n", expander_status);
 }
 
+// this is quirk of AVR, it only has pull down
+// resistors so we set the col to 0 and keep all
+// the others at 1 and detect the 0
 void expander_select_col(uint8_t col)
 {
   uint8_t gpioa = 0xFF;
   uint8_t colp = col - (MATRIX_COLS - 8);
-  gpioa &= ~(1<<colp); // all set to 0
+  gpioa &= ~(1<<colp); // set the col to 0
   // dprintf("gpioa %d col %d colp %d\n", gpioa, col, colp);
 
   expander_write(EXPANDER_REG_IODIRA, gpioa); // OUT
@@ -70,7 +73,7 @@ void expander_toggle_led(void) {
   expander_read(EXPANDER_REG_GPIOB, &gpiob);
 
   dprintf("gpiob %d\n", gpiob);
-  gpiob ^= (1<<3);
+  gpiob ^= (1<<3); // toggle pin
   expander_write(EXPANDER_REG_GPIOB, gpiob);
 }
 
