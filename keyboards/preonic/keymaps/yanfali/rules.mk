@@ -1,0 +1,4 @@
+SRC += muse.c
+RGBLIGHT_ENABLE = yes
+CONSOLE_ENABLE = no
+EXTRAFLAGS+=-flto # -4-7k
