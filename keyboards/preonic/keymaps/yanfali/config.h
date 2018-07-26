@@ -11,6 +11,8 @@
                                   SONG(COLEMAK_SOUND), \
                                   SONG(DVORAK_SOUND) \
                                 }
+    #define AUDIO_CLICKY
+    #define AUDIO_CLICKY_FREQ_RANDOMNESS 1.0f
 #endif
 
 #define MUSIC_MASK (keycode != KC_NO)
