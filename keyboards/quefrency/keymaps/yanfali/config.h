@@ -26,3 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define AUDIO_CLICKY_FREQ_RANDOMNESS 1.0f
 
 #define STARTUP_SONG SONG(ZELDA_PUZZLE)
+
+//#define USE_I2C
+//#undef USE_SERIAL
