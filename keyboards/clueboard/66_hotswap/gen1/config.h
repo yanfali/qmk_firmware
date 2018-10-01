@@ -26,7 +26,7 @@
  */
 #define B7_AUDIO
 #define NO_MUSIC_MODE
-#define AUDIO_CLICKY
+//#define AUDIO_CLICKY
 
 /* Backlight configuration
  */
@@ -35,7 +35,7 @@
 /* Underlight configuration
  */
 #define RGB_DI_PIN D7
-#define RGBLED_NUM 26     // Number of LEDs
+#define RGBLED_NUM 34     // Number of LEDs
 #define RGBLIGHT_HUE_STEP 32
 #define RGBLIGHT_SAT_STEP 17
 #define RGBLIGHT_VAL_STEP 17
