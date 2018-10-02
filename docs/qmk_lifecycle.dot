@@ -1,12 +1,16 @@
 digraph {
-  node [shape=box,style=filled,fontcolor="#eeeeee",fillcolor="#34495D",fontname="helvetica"];
+  node [shape=Mrecord,style="filled,setlinewidth(0)",fontcolor="#eeeeee",fillcolor="#34495D",fontname="Lato",margin="0.2,0.055"]
   "bootmagic" [fillcolor="#3ab882"]
   "magic" [fillcolor="#3ab882"]
   "startup_kb" [fillcolor="#3ab882"]
   "matrix_init" [fillcolor="#fcb738", fontcolor="#333333"]
+  "" [fillcolor="#eeeeee",shape=point]
+  "first hook" [fontcolor="red",fillcolor="none",style="none,setlinewidth(2)",color=red];
   label="keyboard.c::keyboard_init()";
   "timer_init" -> "disable JTAG";
-  "disable JTAG" -> "matrix_init";
+  "disable JTAG" -> "";
+  "":w -> "first hook":e [style=dashed,color=red];
+  "":s -> "matrix_init":n;
   "matrix_init" -> "ps2_mouse_init";
   "ps2_mouse_init" -> "serial_mouse_init";
   "serial_mouse_init" -> "adb_mouse_init";
