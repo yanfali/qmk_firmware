@@ -1,3 +1,3 @@
-AUDIO_ENABLE = no          # Audio output on port C6
+AUDIO_ENABLE = yes          # Audio output on port C6
 EXTRA_FLAGS += -flto
 RGBLIGHT_ENABLE = no
