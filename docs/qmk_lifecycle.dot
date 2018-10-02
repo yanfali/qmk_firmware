@@ -1,0 +1,22 @@
+digraph {
+  node [shape=box,style=filled,fontcolor="#eeeeee",fillcolor="#34495D",fontname="helvetica"];
+  "bootmagic" [fillcolor="#3ab882"]
+  "magic" [fillcolor="#3ab882"]
+  "startup_kb" [fillcolor="#3ab882"]
+  "matrix_init" [fillcolor="#fcb738", fontcolor="#333333"]
+  label="keyboard.c::keyboard_init()";
+  "timer_init" -> "disable JTAG";
+  "disable JTAG" -> "matrix_init";
+  "matrix_init" -> "ps2_mouse_init";
+  "ps2_mouse_init" -> "serial_mouse_init";
+  "serial_mouse_init" -> "adb_mouse_init";
+  "adb_mouse_init" -> "bootmagic";
+  "bootmagic" -> "magic";
+  "magic" -> "backlight_init";
+  "backlight_init" -> "rgblight_init";
+  "rgblight_init" -> "steno_init";
+  "steno_init" -> "fauxclicky_init";
+  "fauxclicky_init" -> "pointing_device_init";
+  "pointing_device_init" -> "enable nkro";
+  "enable nkro" -> "startup_kb";
+}
