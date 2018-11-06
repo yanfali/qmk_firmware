@@ -1,5 +1,5 @@
 /*
-Copyright 2018 REPLACE_WITH_YOUR_NAME
+Copyright 2018 Yan-Fa Li
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0xFEED
-#define PRODUCT_ID      0x0000
-#define DEVICE_VER      0x0001
+#define PRODUCT_ID      0x1346
+#define DEVICE_VER      0x0030
 #define MANUFACTURER    Yan-Fa Li
 #define PRODUCT         Kinesis Advantage QMK
 #define DESCRIPTION     A custom keyboard
