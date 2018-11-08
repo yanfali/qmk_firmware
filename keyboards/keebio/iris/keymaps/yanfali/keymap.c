@@ -27,6 +27,8 @@ enum custom_keycodes {
 #define KC_ESCC MT(MOD_LCTL, KC_ESC)    // Control (hold), Escape (tap)
 #define KC_BACK LGUI(KC_LEFT)           // Browser Back
 #define KC_FORW LGUI(KC_RIGHT)          // Browser Forward
+#define KC_JUMP LCTL(KC_RBRC)           // ctag Forward
+#define KC_RET  LCTL(KC_O)              // ctag Back
 #define KC_LOWR LOWER
 #define KC_RASE RAISE
 #define KC_RST RESET
@@ -69,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
      RST , 1  , 2  , 3  , 4  , 5  ,                6  , 7  , 8  , 9  , 0  ,    ,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-     DEL ,CAPP,LEFT,RGHT, UP ,LBRC,               RBRC,    ,    ,    ,PLUS,PIPE,
+     DEL ,CAPP,LEFT,RGHT, UP ,LBRC,               RBRC,JUMP,RET ,    ,PLUS,PIPE,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
      BL_S,CPYP,    ,    ,DOWN,LCBR,LPRN,     RPRN,RCBR, P1 , P2 , P3 ,MINS,    ,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
