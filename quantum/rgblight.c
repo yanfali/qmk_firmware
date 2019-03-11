@@ -59,7 +59,10 @@ const uint16_t RGBLED_GRADIENT_RANGES[] PROGMEM = {360, 240, 180, 120, 90};
 rgblight_config_t rgblight_config;
 bool is_rgblight_initialized = false;
 
-LED_TYPE led[RGBLED_NUM];
+#ifndef LED_ARRAY
+  LED_TYPE led[RGBLED_NUM];
+  #define LED_ARRAY led
+#endif
 bool rgblight_timer_enabled = false;
 
 void sethsv(uint16_t hue, uint8_t sat, uint8_t val, LED_TYPE *led1) {
@@ -544,7 +547,7 @@ void rgblight_sethsv_eeprom_helper(uint16_t hue, uint8_t sat, uint8_t val, bool 
         for (uint8_t i = 0; i < RGBLED_NUM; i++) {
           _hue = (range / RGBLED_NUM * i * direction + hue + 360) % 360;
           dprintf("rgblight rainbow set hsv: %u,%u,%d,%u\n", i, _hue, direction, range);
-          sethsv(_hue, sat, val, (LED_TYPE *)&led[i]);
+          sethsv(_hue, sat, val, (LED_TYPE *)&LED_ARRAY[i]);
         }
         rgblight_set();
       }
@@ -586,9 +589,9 @@ void rgblight_setrgb(uint8_t r, uint8_t g, uint8_t b) {
   if (!rgblight_config.enable) { return; }
 
   for (uint8_t i = 0; i < RGBLED_NUM; i++) {
-    led[i].r = r;
-    led[i].g = g;
-    led[i].b = b;
+    LED_ARRAY[i].r = r;
+    LED_ARRAY[i].g = g;
+    LED_ARRAY[i].b = b;
   }
   rgblight_set();
 }
@@ -596,9 +599,9 @@ void rgblight_setrgb(uint8_t r, uint8_t g, uint8_t b) {
 void rgblight_setrgb_at(uint8_t r, uint8_t g, uint8_t b, uint8_t index) {
   if (!rgblight_config.enable || index >= RGBLED_NUM) { return; }
 
-  led[index].r = r;
-  led[index].g = g;
-  led[index].b = b;
+  LED_ARRAY[index].r = r;
+  LED_ARRAY[index].g = g;
+  LED_ARRAY[index].b = b;
   rgblight_set();
 }
 
@@ -627,9 +630,9 @@ void rgblight_setrgb_range(uint8_t r, uint8_t g, uint8_t b, uint8_t start, uint8
   if (!rgblight_config.enable || start < 0 || start >= end || end > RGBLED_NUM) { return; }
 
   for (uint8_t i = start; i < end; i++) {
-    led[i].r = r;
-    led[i].g = g;
-    led[i].b = b;
+    LED_ARRAY[i].r = r;
+    LED_ARRAY[i].g = g;
+    LED_ARRAY[i].b = b;
   }
   rgblight_set();
   wait_ms(1);
@@ -663,20 +666,20 @@ void rgblight_sethsv_slave(uint16_t hue, uint8_t sat, uint8_t val) {
 void rgblight_set(void) {
   if (rgblight_config.enable) {
     #ifdef RGBW
-      ws2812_setleds_rgbw(led, RGBLED_NUM);
+      ws2812_setleds_rgbw(LED_ARRAY, RGBLED_NUM);
     #else
-      ws2812_setleds(led, RGBLED_NUM);
+      ws2812_setleds(LED_ARRAY, RGBLED_NUM);
     #endif
   } else {
     for (uint8_t i = 0; i < RGBLED_NUM; i++) {
-      led[i].r = 0;
-      led[i].g = 0;
-      led[i].b = 0;
+      LED_ARRAY[i].r = 0;
+      LED_ARRAY[i].g = 0;
+      LED_ARRAY[i].b = 0;
     }
     #ifdef RGBW
-      ws2812_setleds_rgbw(led, RGBLED_NUM);
+      ws2812_setleds_rgbw(LED_ARRAY, RGBLED_NUM);
     #else
-      ws2812_setleds(led, RGBLED_NUM);
+      ws2812_setleds(LED_ARRAY, RGBLED_NUM);
     #endif
   }
 }
@@ -850,7 +853,7 @@ void rgblight_effect_rainbow_swirl(uint8_t interval) {
   last_timer = timer_read();
   for (i = 0; i < RGBLED_NUM; i++) {
     hue = (RGBLIGHT_RAINBOW_SWIRL_RANGE / RGBLED_NUM * i + current_hue) % 360;
-    sethsv(hue, rgblight_config.sat, rgblight_config.val, (LED_TYPE *)&led[i]);
+    sethsv(hue, rgblight_config.sat, rgblight_config.val, (LED_TYPE *)&LED_ARRAY[i]);
   }
   rgblight_set();
 
@@ -887,16 +890,16 @@ void rgblight_effect_snake(uint8_t interval) {
   }
   last_timer = timer_read();
   for (i = 0; i < RGBLED_NUM; i++) {
-    led[i].r = 0;
-    led[i].g = 0;
-    led[i].b = 0;
+    LED_ARRAY[i].r = 0;
+    LED_ARRAY[i].g = 0;
+    LED_ARRAY[i].b = 0;
     for (j = 0; j < RGBLIGHT_EFFECT_SNAKE_LENGTH; j++) {
       k = pos + j * increment;
       if (k < 0) {
         k = k + RGBLED_NUM;
       }
       if (i == k) {
-        sethsv(rgblight_config.hue, rgblight_config.sat, (uint8_t)(rgblight_config.val*(RGBLIGHT_EFFECT_SNAKE_LENGTH-j)/RGBLIGHT_EFFECT_SNAKE_LENGTH), (LED_TYPE *)&led[i]);
+        sethsv(rgblight_config.hue, rgblight_config.sat, (uint8_t)(rgblight_config.val*(RGBLIGHT_EFFECT_SNAKE_LENGTH-j)/RGBLIGHT_EFFECT_SNAKE_LENGTH), (LED_TYPE *)&LED_ARRAY[i]);
       }
     }
   }
@@ -934,20 +937,20 @@ void rgblight_effect_knight(uint8_t interval) {
 
   // Set all the LEDs to 0
   for (i = 0; i < RGBLED_NUM; i++) {
-    led[i].r = 0;
-    led[i].g = 0;
-    led[i].b = 0;
+    LED_ARRAY[i].r = 0;
+    LED_ARRAY[i].g = 0;
+    LED_ARRAY[i].b = 0;
   }
   // Determine which LEDs should be lit up
   for (i = 0; i < RGBLIGHT_EFFECT_KNIGHT_LED_NUM; i++) {
     cur = (i + RGBLIGHT_EFFECT_KNIGHT_OFFSET) % RGBLED_NUM;
 
     if (i >= low_bound && i <= high_bound) {
-      sethsv(rgblight_config.hue, rgblight_config.sat, rgblight_config.val, (LED_TYPE *)&led[cur]);
+      sethsv(rgblight_config.hue, rgblight_config.sat, rgblight_config.val, (LED_TYPE *)&LED_ARRAY[cur]);
     } else {
-      led[cur].r = 0;
-      led[cur].g = 0;
-      led[cur].b = 0;
+      LED_ARRAY[cur].r = 0;
+      LED_ARRAY[cur].g = 0;
+      LED_ARRAY[cur].b = 0;
     }
   }
   rgblight_set();
@@ -976,7 +979,7 @@ void rgblight_effect_christmas(void) {
   current_offset = (current_offset + 1) % 2;
   for (i = 0; i < RGBLED_NUM; i++) {
     hue = 0 + ((i/RGBLIGHT_EFFECT_CHRISTMAS_STEP + current_offset) % 2) * 120;
-    sethsv(hue, rgblight_config.sat, rgblight_config.val, (LED_TYPE *)&led[i]);
+    sethsv(hue, rgblight_config.sat, rgblight_config.val, (LED_TYPE *)&LED_ARRAY[i]);
   }
   rgblight_set();
 }
@@ -1024,11 +1027,11 @@ void rgblight_effect_alternating(void){
 
   for(int i = 0; i<RGBLED_NUM; i++){
       if(i<RGBLED_NUM/2 && pos){
-          sethsv(rgblight_config.hue, rgblight_config.sat, rgblight_config.val, (LED_TYPE *)&led[i]);
+          sethsv(rgblight_config.hue, rgblight_config.sat, rgblight_config.val, (LED_TYPE *)&LED_ARRAY[i]);
       }else if (i>=RGBLED_NUM/2 && !pos){
-          sethsv(rgblight_config.hue, rgblight_config.sat, rgblight_config.val, (LED_TYPE *)&led[i]);
+          sethsv(rgblight_config.hue, rgblight_config.sat, rgblight_config.val, (LED_TYPE *)&LED_ARRAY[i]);
       }else{
-          sethsv(rgblight_config.hue, rgblight_config.sat, 0, (LED_TYPE *)&led[i]);
+          sethsv(rgblight_config.hue, rgblight_config.sat, 0, (LED_TYPE *)&LED_ARRAY[i]);
       }
   }
   rgblight_set();

@@ -141,6 +141,22 @@ unsigned char I2C_Write(unsigned char c)
 
 #endif
 
+// Set an led in the buffer to a color
+void inline ws2812_setled(int i, uint8_t r, uint8_t g, uint8_t b)
+{
+    ws2812_led[i].r = r;
+    ws2812_led[i].g = g;
+    ws2812_led[i].b = b;
+}
+
+void ws2812_setled_all  (uint8_t r, uint8_t g, uint8_t b)
+{
+  for (int i = 0; i < RGBLED_NUM; i++) {
+    ws2812_led[i].r = r;
+    ws2812_led[i].g = g;
+    ws2812_led[i].b = b;
+  }
+}
 // Setleds for standard RGB
 void inline ws2812_setleds(LED_TYPE *ledarray, uint16_t leds)
 {

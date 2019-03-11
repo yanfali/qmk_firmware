@@ -31,6 +31,9 @@
 #include "rgblight_types.h"
 
 
+// LED color buffer
+LED_TYPE ws2812_led[RGBLED_NUM];
+
 /* User Interface
  *
  * Input:
@@ -43,7 +46,8 @@
  *         - Send out the LED data
  *         - Wait 50�s to reset the LEDs
  */
-
+void ws2812_setled      (int index, uint8_t r, uint8_t g, uint8_t b);
+void ws2812_setled_all  (uint8_t r, uint8_t g, uint8_t b);
 void ws2812_setleds     (LED_TYPE *ledarray, uint16_t number_of_leds);
 void ws2812_setleds_pin (LED_TYPE *ledarray, uint16_t number_of_leds,uint8_t pinmask);
 void ws2812_setleds_rgbw(LED_TYPE *ledarray, uint16_t number_of_leds);

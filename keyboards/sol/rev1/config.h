@@ -81,8 +81,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ws2812_PORTREG  PORTD
 #define ws2812_DDRREG   DDRD
 
-#define DRIVER_COUNT      2
-#define DRIVER_LED_TOTAL  70
+#define DRIVER_COUNT      1
 // #define RGB_MATRIX_KEYPRESSES
 #define BACKLIGHT_PIN B7
 #define BACKLIGHT_LEVELS 5
@@ -92,6 +91,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #else
   #define RGBLED_NUM 70
 #endif
+#define DRIVER_LED_TOTAL  RGBLED_NUM
 
 #define RGBLIGHT_RAINBOW_SWIRL_RANGE 1950
 
