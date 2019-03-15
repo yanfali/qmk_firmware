@@ -112,6 +112,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define RGBLIGHT_ANIMATIONS
 
+#define RGB_MATRIX_VAL_STEP (RGB_MATRIX_MAXIMUM_BRIGHTNESS / 10)
+#define RGB_MATRIX_HUE_STEP 10
+#define RGB_MATRIX_SAT_STEP 17
+#define RGB_MATRIX_SPD_STEP 17
+
+#define LED_HITS_TO_REMEMBER 5
+
 #if defined(RGBLIGHT_ENABLE) && !defined(IOS_DEVICE_ENABLE)
 // USB_MAX_POWER_CONSUMPTION value for Helix keyboard
 //  120  RGBoff, OLEDoff
