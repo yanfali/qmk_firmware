@@ -27,9 +27,9 @@
 #include <util/delay.h>
 #include "debug.h"
 
-#ifndef LED_ARRAY
+#if !defined(LED_ARRAY) && defined(RGB_MATRIX_ENABLE)
 // LED color buffer
-LED_TYPE led[RGBLED_NUM];
+LED_TYPE led[DRIVER_LED_TOTAL];
   #define LED_ARRAY led
 #endif
 
