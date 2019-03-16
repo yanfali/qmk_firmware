@@ -132,8 +132,7 @@ enum RGBLIGHT_EFFECT_MODE {
 #include <stdbool.h>
 #include "eeconfig.h"
 #ifndef RGBLIGHT_CUSTOM_DRIVER
-  #include "ws2812.h"
-  #define LED_ARRAY ws2812_led
+#include "ws2812.h"
 #endif
 #include "rgblight_types.h"
 #include "rgblight_list.h"
