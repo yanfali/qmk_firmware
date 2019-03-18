@@ -1,2 +1,3 @@
 #undef RGBLED_NUM
 #define RGBLED_NUM 20
+#define DRIVER_LED_TOTAL RGBLED_NUM
