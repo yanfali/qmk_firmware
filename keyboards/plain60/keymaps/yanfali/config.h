@@ -1,0 +1,4 @@
+#define B7_AUDIO
+#ifdef AUDIO_ENABLE
+  #define STARTUP_SONG SONG(GUITAR_SOUND)
+#endif
