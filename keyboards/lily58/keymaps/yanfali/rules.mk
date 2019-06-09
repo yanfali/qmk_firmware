@@ -2,6 +2,7 @@
 #   change to "no" to disable the options, or define them in the Makefile in
 #   the appropriate keymap folder that will get included automatically
 #
+BOOTLOADER = atmel-dfu
 BOOTMAGIC_ENABLE = lite       # Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE = no        # Mouse keys(+4700)
 EXTRAKEY_ENABLE = no        # Audio control and System control(+450)
