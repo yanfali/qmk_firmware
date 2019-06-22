@@ -5,9 +5,9 @@ A 65% PCB designed to fit the TADA68, Kayak and others.
 
 ![kle](https://maartenwut.com/wp-content/uploads/2019/02/ta-65-layouts-768x420.png)
 
-Keyboard Maintainer: QMK Community
-Hardware Supported: TA-65 PCB
-Hardware Availability: [maartenwut.com](https://maartenwut.com/product/ta-65/)
+Keyboard Maintainer: QMK Community<br>
+Hardware Supported: TA-65 PCB<br>
+Hardware Availability: [maartenwut.com](https://maartenwut.com/product/ta-65/)<br>
 
 Make example for this keyboard (after setting up your build environment):
 
