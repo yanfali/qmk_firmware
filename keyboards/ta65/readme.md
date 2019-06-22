@@ -1,7 +1,7 @@
 TA65
 ====
 
-A compact 65% keyboard.
+A 65% PCB designed to fit the TADA68, Kayak and others.
 
 Keyboard Maintainer: QMK Community
 Hardware Supported: TA-65 PCB
