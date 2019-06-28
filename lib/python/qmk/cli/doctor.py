@@ -23,7 +23,13 @@ def main(cli):
 
     binaries = ['dfu-programmer', 'avrdude', 'dfu-util', 'avr-gcc', 'arm-none-eabi-gcc']
 
-    cli.log.info('QMK Doctor is Checking your environment')
+    cli.log.info(
+        """
+{fg_green}  ____    __  _____ __  ___           __
+{fg_green} / __ \  /  |/  / //_/ / _ \___  ____/ /____  ____
+{fg_green}/ /_/ / / /|_/ / ,<   / // / _ \/ __/ __/ _ \/ __/
+{fg_green}\___\_\/_/  /_/_/|_| /____/\___/\__/\__/\___/_/   is in the house"""
+    )
 
     ok = True
     for binary in binaries:
