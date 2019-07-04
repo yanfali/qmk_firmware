@@ -16,24 +16,17 @@
 
 #pragma once
 
-#include "quantum.h"
+#include "config_common.h"
 
-#define LAYOUT( \
-    k00 \
-  ) { \
-    { k00 }  \
-}
+#undef MATRIX_COLS
+#undef MATRIX_ROWS
 
-#define LAYOUT_25( \
-    k00, k01, k02, k03, k04, \
-    k10, k11, k12, k13, k14, \
-    k20, k21, k22, k23, k24, \
-    k30, k31, k32, k33, k34, \
-    k40, k41, k42, k43, k44 \
-  ) { \
-    { k00, k01, k02, k03, k04 },  \
-    { k10, k11, k12, k13, k14 },  \
-    { k20, k21, k22, k23, k24 },  \
-    { k30, k31, k32, k33, k34 },  \
-    { k40, k41, k42, k43, k44 }  \
-}
+#define MATRIX_COLS 5
+#define MATRIX_ROWS 5
+
+#undef MATRIX_COL_PINS
+#undef MATRIX_ROW_PINS
+
+#define MATRIX_COL_PINS { B9, B8, B7, B6, B5 }
+#define MATRIX_ROW_PINS { A8, B15, B14, B13, B12 }
+#define UNUSED_PINS
