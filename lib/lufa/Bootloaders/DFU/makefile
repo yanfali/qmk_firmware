@@ -36,8 +36,8 @@ $(warning BOOT_SECTION_SIZE_KB is $(BOOT_SECTION_SIZE_KB))
 # Bootloader address calculation formulas
 # Do not modify these macros, but rather modify the dependent values above.
 CALC_ADDRESS_IN_HEX   = $(shell printf "0x%X" $$(( $(1) )) )
-BOOT_START_OFFSET     = $(call CALC_ADDRESS_IN_HEX, ($(FLASH_SIZE_KB) - $(BOOT_SECTION_SIZE_KB)) * 1024 )
-BOOT_SEC_OFFSET       = $(call CALC_ADDRESS_IN_HEX, ($(FLASH_SIZE_KB) * 1024) - ($(strip $(1))) )
+BOOT_START_OFFSET     = $(call CALC_ADDRESS_IN_HEX, ($(FLASH_SIZE_KB) - $(BOOT_SECTION_SIZE_KB)) * 1024)
+BOOT_SEC_OFFSET       = $(call CALC_ADDRESS_IN_HEX, ($(FLASH_SIZE_KB) * 1024) - ($(strip $(1))))
 
 $(warning BOOT_START_OFFSET is $(BOOT_START_OFFSET))
 $(warning BOOT_SEC_OFFSET is $(BOOT_SEC_OFFSET))
@@ -49,7 +49,7 @@ BOOT_API_LD_FLAGS     = $(call BOOT_SECTION_LD_FLAG, .apitable_trampolines, Boot
 BOOT_API_LD_FLAGS    += $(call BOOT_SECTION_LD_FLAG, .apitable_jumptable,   BootloaderAPI_JumpTable,   32)
 BOOT_API_LD_FLAGS    += $(call BOOT_SECTION_LD_FLAG, .apitable_signatures,  BootloaderAPI_Signatures,  8)
 
-$(warning BOOT_SECTION_LD_FLAG is $(BOOT_SECTION_LD_FLAGS))
+$(warning BOOT_SECTION_LD_FLAG is $(BOOT_SECTION_LD_FLAG))
 $(warning BOOT_API_LD_FLAGS is $(BOOT_API_LD_FLAGS))
 
 # Default target
