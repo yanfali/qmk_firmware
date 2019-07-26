@@ -1,43 +1,43 @@
-# Split Keyboard 
+# Split Keyboard
 
-Many keyboards in the QMK Firmware repo are "split" keyboards. They use two controllers—one plugging into USB, and the second connected by a serial or an I<sup>2</sup>C connection over a TRRS or similar cable. 
+Many keyboards in the QMK Firmware repo are "split" keyboards. They use two controllers—one plugging into USB, and the second connected by a serial or an I<sup>2</sup>C connection over a TRRS or similar cable.
 
-Split keyboards can have a lot of benefits, but there is some additional work needed to get them enabled.  
+Split keyboards can have a lot of benefits, but there is some additional work needed to get them enabled.
 
-QMK Firmware has a generic implementation that is usable by any board, as well as numerous board specific implementations. 
+QMK Firmware has a generic implementation that is usable by any board, as well as numerous board specific implementations.
 
-For this, we will mostly be talking about the generic implementation used by the Let's Split and other keyboards. 
+For this, we will mostly be talking about the generic implementation used by the Let's Split and other keyboards.
 
-!> ARM is not yet supported for Split Keyboards.  Progress is being made, but we are not quite there, yet. 
+!> ARM is not yet supported for Split Keyboards.  Progress is being made, but we are not quite there, yet.
 
 
 ## Hardware Configuration
 
-This assumes that you're using two Pro Micro-compatible controllers, and are using TRRS jacks to connect to two halves. 
+This assumes that you're using two Pro Micro-compatible controllers, and are using TRRS jacks to connect to two halves.
 
 ### Required Hardware
 
 Apart from diodes and key switches for the keyboard matrix in each half, you will need 2x TRRS sockets and 1x TRRS cable.
 
-Alternatively, you can use any sort of cable and socket that has at least 3 wires. 
+Alternatively, you can use any sort of cable and socket that has at least 3 wires.
 
 If you want to use I<sup>2</sup>C to communicate between halves, you will need a cable with at least 4 wires and 2x 4.7kΩ pull-up resistors.
 
-#### Considerations 
+#### Considerations
 
-The most commonly used connection is a TRRS cable and jacks.  These provide 4 wires, making them very useful for split keyboards, and are easy to find. 
+The most commonly used connection is a TRRS cable and jacks.  These provide 4 wires, making them very useful for split keyboards, and are easy to find.
 
-However, since one of the wires carries VCC, this means that the boards are not hot pluggable. You should always disconnect the board from USB before unplugging and plugging in TRRS cables, or you can short the controller, or worse. 
+However, since one of the wires carries VCC, this means that the boards are not hot pluggable. You should always disconnect the board from USB before unplugging and plugging in TRRS cables, or you can short the controller, or worse.
 
-Another option is to use phone cables (as in, old school RJ-11/RJ-14 cables). Make sure that you use one that actually supports 4 wires/lanes.  
+Another option is to use phone cables (as in, old school RJ-11/RJ-14 cables). Make sure that you use one that actually supports 4 wires/lanes.
 
-However, USB cables, SATA cables, and even just 4 wires have been known to be used for communication between the controllers. 
+However, USB cables, SATA cables, and even just 4 wires have been known to be used for communication between the controllers.
 
-!> Using USB cables for communication between the controllers works just fine, but the connector could be mistaken for a normal USB connection and potentially short out the keyboard, depending on how it's wired.  For this reason, they are not recommended for connecting split keyboards.  
+!> Using USB cables for communication between the controllers works just fine, but the connector could be mistaken for a normal USB connection and potentially short out the keyboard, depending on how it's wired.  For this reason, they are not recommended for connecting split keyboards.
 
 ### Serial Wiring
 
-The 3 wires of the TRS/TRRS cable need to connect GND, VCC, and D0 (aka PDO or pin 3) between the two Pro Micros. 
+The 3 wires of the TRS/TRRS cable need to connect GND, VCC, and D0 (aka PDO or pin 3) between the two Pro Micros.
 
 ?> Note that the pin used here is actually set by `SOFT_SERIAL_PIN` below.
 
@@ -45,7 +45,7 @@ The 3 wires of the TRS/TRRS cable need to connect GND, VCC, and D0 (aka PDO or p
 
 ### I<sup>2</sup>C Wiring
 
-The 4 wires of the TRRS cable need to connect GND, VCC, and SCL and SDA (aka PD0/pin 3 and PD1/pin 2, respectively) between the two Pro Micros. 
+The 4 wires of the TRRS cable need to connect GND, VCC, and SCL and SDA (aka PD0/pin 3 and PD1/pin 2, respectively) between the two Pro Micros.
 
 The pull-up resistors may be placed on either half. If you wish to use the halves independently, it is also possible to use 4 resistors and have the pull-ups in both halves.
 
@@ -53,13 +53,13 @@ The pull-up resistors may be placed on either half. If you wish to use the halve
 
 ## Firmware Configuration
 
-To enable the split keyboard feature, add the following to your `rules.mk`: 
+To enable the split keyboard feature, add the following to your `rules.mk`:
 
 ```make
 SPLIT_KEYBOARD = yes
 ```
 
-If you're using a custom transport (communication method), then you will also need to add: 
+If you're using a custom transport (communication method), then you will also need to add:
 
 ```make
 SPLIT_TRANSPORT = custom
@@ -77,20 +77,20 @@ You can configure the firmware to read a pin on the controller to determine hand
 #define SPLIT_HAND_PIN B7
 ```
 
-This will read the specified pin. If it's high, then the controller assumes it is the left hand, and if it's low, it's assumed to be the right side. 
+This will read the specified pin. If it's high, then the controller assumes it is the left hand, and if it's low, it's assumed to be the right side.
 
 #### Handedness by EEPROM
 
-This method sets the keyboard's handedness by setting a flag in the persistent storage (`EEPROM`).  This is checked when the controller first starts up, and determines what half the keyboard is, and how to orient the keyboard layout. 
+This method sets the keyboard's handedness by setting a flag in the persistent storage (`EEPROM`).  This is checked when the controller first starts up, and determines what half the keyboard is, and how to orient the keyboard layout.
 
 
-To enable this method, add the following to your `config.h` file: 
+To enable this method, add the following to your `config.h` file:
 
 ```c
 #define EE_HANDS
 ```
 
-However, you'll have to flash the EEPROM files for the correct hand to each controller.  You can do this manually, or there are targets for avrdude and dfu to do this, while flashing the firmware: 
+However, you'll have to flash the EEPROM files for the correct hand to each controller.  You can do this manually, or there are targets for avrdude and dfu to do this, while flashing the firmware:
 
 * `:avrdude-split-left`
 * `:avrdude-split-right`
@@ -99,9 +99,9 @@ However, you'll have to flash the EEPROM files for the correct hand to each cont
 * `:dfu-util-split-left`
 * `:dfu-util-split-right`
 
-This setting is not changed when re-initializing the EEPROM using the `EEP_RST` key, or using the `eeconfig_init()` function.  However, if you reset the EEPROM outside of the firmware's built in options (such as flashing a file that overwrites the `EEPROM`, like how the [QMK Toolbox]()'s "Reset EEPROM" button works), you'll need to re-flash the controller with the `EEPROM` files. 
+This setting is not changed when re-initializing the EEPROM using the `EEP_RST` key, or using the `eeconfig_init()` function.  However, if you reset the EEPROM outside of the firmware's built in options (such as flashing a file that overwrites the `EEPROM`, like how the [QMK Toolbox]()'s "Reset EEPROM" button works), you'll need to re-flash the controller with the `EEPROM` files.
 
-You can find the `EEPROM` files in the QMK firmware repo, [here](https://github.com/qmk/qmk_firmware/tree/master/quantum/split_common). 
+You can find the `EEPROM` files in the QMK firmware repo, [here](https://github.com/qmk/qmk_firmware/tree/master/quantum/split_common).
 
 #### Handedness by `#define`
 
@@ -111,7 +111,7 @@ You can set the handedness at compile time.  This is done by adding the followin
 #define MASTER_RIGHT
 ```
 
-or 
+or
 
 ```c
 #define MASTER_LEFT
@@ -128,13 +128,13 @@ Because not every split keyboard is identical, there are a number of additional 
 #define USE_I2C
 ```
 
-This enables I<sup>2</sup>C support for split keyboards. This isn't strictly for communication, but can be used for OLED or other I<sup>2</sup>C-based devices. 
+This enables I<sup>2</sup>C support for split keyboards. This isn't strictly for communication, but can be used for OLED or other I<sup>2</sup>C-based devices.
 
 ```c
 #define SOFT_SERIAL_PIN D0
 ```
 
-This sets the pin to be used for serial communication. If you're not using serial, you shouldn't need to define this.  
+This sets the pin to be used for serial communication. If you're not using serial, you shouldn't need to define this.
 
 However, if you are using serial and I<sup>2</sup>C on the board, you will need to set this, and to something other than D0 and D1 (as these are used for I<sup>2</sup>C communication).
 
@@ -153,7 +153,7 @@ If you're having issues with serial communication, you can change this value, as
 
 ###  Hardware Configuration Options
 
-There are some settings that you may need to configure, based on how the hardware is set up. 
+There are some settings that you may need to configure, based on how the hardware is set up.
 
 ```c
 #define MATRIX_ROW_PINS_RIGHT { <row pins> }
@@ -185,7 +185,7 @@ This option enables synchronization of the RGB Light modes between the controlle
 #define RGBLED_SPLIT { 6, 6 }
 ```
 
-This sets how many LEDs are directly connected to each controller.  The first number is the left side, and the second number is the right side.  
+This sets how many LEDs are directly connected to each controller.  The first number is the left side, and the second number is the right side.
 
 ?> This setting implies that `RGBLIGHT_SPLIT` is enabled, and will forcibly enable it, if it's not.
 
@@ -193,9 +193,7 @@ This sets how many LEDs are directly connected to each controller.  The first nu
 ```c
 #define SPLIT_USB_DETECT
 ```
-This option changes the startup behavior to detect an active USB connection when delegating master/slave. If this operation times out, then the half is assume to be a slave. This is the default behavior for ARM, and required for AVR Teensy boards (due to hardware limitations).
-
-?> This setting will stop the ability to demo using battery packs.
+This option changes the startup behavior to detect a USB connection with a timeout when delegating master/slave. This is the default behavior for ARM, and required for AVR Teensy (due to hardware limitations).
 
 ```c
 #define SPLIT_USB_TIMEOUT 2500
@@ -204,7 +202,7 @@ This sets the maximum timeout when detecting master/slave when using `SPLIT_USB_
 
 ## Additional Resources
 
-Nicinabox has a [very nice and detailed guide](https://github.com/nicinabox/lets-split-guide) for the Let's Split keyboard, that covers most everything you need to know, including troubleshooting information. 
+Nicinabox has a [very nice and detailed guide](https://github.com/nicinabox/lets-split-guide) for the Let's Split keyboard, that covers most everything you need to know, including troubleshooting information.
 
 However, the RGB Light section is out of date, as it was written long before the RGB Split code was added to QMK Firmware. Instead, wire each strip up directly to the controller.
 
