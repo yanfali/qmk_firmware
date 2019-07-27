@@ -31,6 +31,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MATRIX_ROWS 4
 #define MATRIX_COLS 2
 
+/* required because the switches are so big */
+#define DEBOUNCE 50
+
 /*
  * Keyboard Matrix Assignments
  *
