@@ -20,21 +20,19 @@
 // for memcpy
 #include <string.h>
 
-
 #ifndef ENCODER_RESOLUTION
-  #define ENCODER_RESOLUTION 4
+#    define ENCODER_RESOLUTION 4
 #endif
 
 #if !defined(ENCODERS_PAD_A) || !defined(ENCODERS_PAD_B)
-  #error "No encoder pads defined by ENCODERS_PAD_A and ENCODERS_PAD_B"
+#    error "No encoder pads defined by ENCODERS_PAD_A and ENCODERS_PAD_B"
 #endif
 
-
-#define NUMBER_OF_ENCODERS (sizeof(encoders_pad_a)/sizeof(pin_t))
+#define NUMBER_OF_ENCODERS (sizeof(encoders_pad_a) / sizeof(pin_t))
 static pin_t encoders_pad_a[] = ENCODERS_PAD_A;
 static pin_t encoders_pad_b[] = ENCODERS_PAD_B;
 
-static int8_t encoder_LUT[] = { 0, -1, 1, 0, 1, 0, 0, -1, -1, 0, 0, 1, 0, 1, -1, 0 };
+static int8_t encoder_LUT[] = {0, -1, 1, 0, 1, 0, 0, -1, -1, 0, 0, 1, 0, 1, -1, 0};
 
 static uint8_t encoder_state[NUMBER_OF_ENCODERS] = {0};
 
@@ -45,53 +43,47 @@ static int8_t encoder_value[NUMBER_OF_ENCODERS * 2] = {0};
 static int8_t encoder_value[NUMBER_OF_ENCODERS] = {0};
 #endif
 
-__attribute__ ((weak))
-void encoder_update_user(int8_t index, bool clockwise) { }
+__attribute__((weak)) void encoder_update_user(int8_t index, bool clockwise) {}
 
-__attribute__ ((weak))
-void encoder_update_kb(int8_t index, bool clockwise) {
-  encoder_update_user(index, clockwise);
-}
+__attribute__((weak)) void encoder_update_kb(int8_t index, bool clockwise) { encoder_update_user(index, clockwise); }
 
 void encoder_init(void) {
-  for (int i = 0; i < NUMBER_OF_ENCODERS; i++) {
-    setPinInputHigh(encoders_pad_a[i]);
-    setPinInputHigh(encoders_pad_b[i]);
+    for (int i = 0; i < NUMBER_OF_ENCODERS; i++) {
+        setPinInputHigh(encoders_pad_a[i]);
+        setPinInputHigh(encoders_pad_b[i]);
 
-    encoder_state[i] = (readPin(encoders_pad_a[i]) << 0) | (readPin(encoders_pad_b[i]) << 1);
-  }
+        encoder_state[i] = (readPin(encoders_pad_a[i]) << 0) | (readPin(encoders_pad_b[i]) << 1);
+    }
 }
 
 void encoder_read(void) {
-  for (int i = 0; i < NUMBER_OF_ENCODERS; i++) {
-    encoder_state[i] <<= 2;
-    encoder_state[i] |= (readPin(encoders_pad_a[i]) << 0) | (readPin(encoders_pad_b[i]) << 1);
-    encoder_value[i] += encoder_LUT[encoder_state[i] & 0xF];
-    if (encoder_value[i] >= ENCODER_RESOLUTION) {
-        encoder_update_kb(i, false);
+    for (int i = 0; i < NUMBER_OF_ENCODERS; i++) {
+        encoder_state[i] <<= 2;
+        encoder_state[i] |= (readPin(encoders_pad_a[i]) << 0) | (readPin(encoders_pad_b[i]) << 1);
+        encoder_value[i] += encoder_LUT[encoder_state[i] & 0xF];
+        if (encoder_value[i] >= ENCODER_RESOLUTION) {
+            encoder_update_kb(i, false);
+        }
+        if (encoder_value[i] <= -ENCODER_RESOLUTION) {  // direction is arbitrary here, but this clockwise
+            encoder_update_kb(i, true);
+        }
+        encoder_value[i] %= ENCODER_RESOLUTION;
     }
-    if (encoder_value[i] <= -ENCODER_RESOLUTION) { // direction is arbitrary here, but this clockwise
-        encoder_update_kb(i, true);
-    }
-    encoder_value[i] %= ENCODER_RESOLUTION;
-  }
 }
 
 #ifdef SPLIT_KEYBOARD
-void encoder_state_raw(uint8_t* slave_state) {
-  memcpy(slave_state, encoder_state, sizeof(encoder_state));
-}
+void encoder_state_raw(uint8_t* slave_state) { memcpy(slave_state, encoder_state, sizeof(encoder_state)); }
 
 void encoder_update_raw(uint8_t* slave_state) {
-  for (int i = 0; i < NUMBER_OF_ENCODERS; i++) {
-    encoder_value[NUMBER_OF_ENCODERS + i] += encoder_LUT[slave_state[i] & 0xF];
-    if (encoder_value[NUMBER_OF_ENCODERS + i] >= ENCODER_RESOLUTION) {
-        encoder_update_kb(NUMBER_OF_ENCODERS + i, false);
+    for (int i = 0; i < NUMBER_OF_ENCODERS; i++) {
+        encoder_value[NUMBER_OF_ENCODERS + i] += encoder_LUT[slave_state[i] & 0xF];
+        if (encoder_value[NUMBER_OF_ENCODERS + i] >= ENCODER_RESOLUTION) {
+            encoder_update_kb(NUMBER_OF_ENCODERS + i, false);
+        }
+        if (encoder_value[NUMBER_OF_ENCODERS + i] <= -ENCODER_RESOLUTION) {  // direction is arbitrary here, but this clockwise
+            encoder_update_kb(NUMBER_OF_ENCODERS + i, true);
+        }
+        encoder_value[NUMBER_OF_ENCODERS + i] %= ENCODER_RESOLUTION;
     }
-    if (encoder_value[NUMBER_OF_ENCODERS + i] <= -ENCODER_RESOLUTION) { // direction is arbitrary here, but this clockwise
-        encoder_update_kb(NUMBER_OF_ENCODERS + i, true);
-    }
-    encoder_value[NUMBER_OF_ENCODERS + i] %= ENCODER_RESOLUTION;
-  }
 }
 #endif
