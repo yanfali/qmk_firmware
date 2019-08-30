@@ -20,6 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_CONFIG_H
 
+#define TAPPING_TERM 150
+#define RETRO_TAPPING
+
 #define C6_AUDIO
 #define AUDIO_VOICES
 #define AUDIO_CLICKY
