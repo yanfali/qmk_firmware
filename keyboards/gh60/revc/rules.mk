@@ -65,3 +65,8 @@ NKRO_ENABLE = yes			# USB Nkey Rollover - if this doesn't work, see here: https:
 # BLUETOOTH_ENABLE = yes	# Enable Bluetooth with the Adafruit EZ-Key HID
 
 LAYOUTS = 60_ansi 60_iso 60_ansi_split_bs_rshift
+
+CONSOLE_ENABLE = yes	# Console for debug(+400)
+SLEEP_LED_ENABLE = no  # Breathing sleep LED during USB suspend
+BACKLIGHT_ENABLE = yes  # Enable keyboard backlight functionality
+RGBLIGHT_ENABLE = yes

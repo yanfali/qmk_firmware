@@ -1,26 +1,31 @@
 #include "revc.h"
+#include "led.h"
 
+void matrix_init_kb(void) {
+  // Keyboard start-up code goes here
+  // Runs once when the firmware starts up
+  matrix_init_user();
+  led_init_ports();
+};
 
-extern inline void gh60_caps_led_on(void);
-extern inline void gh60_poker_leds_on(void);
-extern inline void gh60_fn_led_on(void);
-extern inline void gh60_esc_led_on(void);
-extern inline void gh60_wasd_leds_on(void);
+void matrix_scan_kb(void) {
+  // Looping keyboard code goes here
+  // This runs every cycle (a lot)
+  matrix_scan_user();
+};
 
-extern inline void gh60_caps_led_off(void);
-extern inline void gh60_poker_leds_off(void);
-extern inline void gh60_fn_led_off(void);
-extern inline void gh60_esc_led_off(void);
-extern inline void gh60_wasd_leds_off(void);
-
+void led_init_ports(void) {
+  // Set caps lock LED pin as output
+  DDRB |= (1 << 2);
+  // Default to off
+  PORTB |= (1 << 2);
+}
 
 void led_set_kb(uint8_t usb_led) {
-    // put your keyboard LED indicator (ex: Caps Lock LED) toggling code here
-
-    if (IS_LED_ON(usb_led, USB_LED_CAPS_LOCK)) {
-        gh60_caps_led_on();
+    if (usb_led & (1 << USB_LED_CAPS_LOCK)) {
+        PORTB &= ~(1 << 2);
     } else {
-        gh60_caps_led_off();
+        PORTB |= (1 << 2);
     }
 
     led_set_user(usb_led);
