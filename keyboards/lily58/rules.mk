@@ -1,7 +1,3 @@
-SRC += i2c.c
-SRC += serial.c
-SRC += ssd1306.c
-
 # if firmware size over limit, try this option
 # CFLAGS += -flto
 
