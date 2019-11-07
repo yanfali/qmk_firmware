@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "DRV2605L.h"
-#include "print.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -121,3 +120,5 @@ void DRV_pulse(uint8_t sequence) {
     DRV_write(DRV_WAVEFORM_SEQ_1, sequence);
     DRV_write(DRV_GO, 0x01);
 }
+
+#include "print.h"
