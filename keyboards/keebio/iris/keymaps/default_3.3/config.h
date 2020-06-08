@@ -19,8 +19,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // #define USE_I2C
 #define EE_HANDS
-
-#ifdef RGBLED_NUM
-#undef RGBLED_NUM
-#define RGBLED_NUM 14    // Number of LEDs
-#endif
